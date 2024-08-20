@@ -1,0 +1,62 @@
+# Diretórios de build
+/build/
+/bin/
+/obj/
+/out/
+/Debug/
+/Release/
+
+# Arquivos gerados pelo sistema operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos de configuração do IDE
+*.idea/
+*.vs/
+*.vscode/
+*.code-workspace
+*.sln
+*.cbp
+*.layout
+*.depend
+*.ncb
+*.opt
+*.plg
+*.user
+*.cproject
+*.project
+
+# Arquivos de log
+*.log
+
+# Arquivos de bibliotecas e links
+*.dll
+*.so
+*.dylib
+*.lib
+*.a
+*.lo
+*.la
+
+# Arquivos de compilação
+*.o
+*.obj
+*.exe
+*.out
+*.app
+
+# Arquivos de teste
+*.gcda
+*.gcno
+*.gcov
+
+# Arquivos temporários
+*.tmp
+*.temp
+*.swp
+
+# Outros
+Makefile
+CMakeLists.txt.user
+*.pyc
+*.pdb
