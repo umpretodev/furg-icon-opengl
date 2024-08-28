@@ -53,7 +53,7 @@ class Animator {
 
 
         static void rotate(GLfloat theta = 45) {
-            glRotatef(glm::radians(theta), 0.0f, 0.0f, 1.0f);
+            glRotatef(glm::radians(theta), 0.0f, 1.0f, .0f);
         }
     
 };

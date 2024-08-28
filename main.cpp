@@ -19,6 +19,8 @@ GLfloat LIMIT = .5f;
 void display() {
     glClear(GL_COLOR_BUFFER_BIT);
 
+    Light::initLights();
+
     glPushMatrix();
 
     glTranslatef(ORIGIN.x, ORIGIN.y, ORIGIN.z); 
@@ -42,8 +44,6 @@ void update(int value) {
 void init() {
     ColorUtil::setBackground();
     glMatrixMode(GL_PROJECTION);
-
-    Light::initLights();
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
