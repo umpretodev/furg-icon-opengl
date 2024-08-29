@@ -13,10 +13,10 @@ vec3 diffuseColor = vec3(1.0f, 0.0f, 0.0f);
 class Light {
     public:
         static void initLights() {
-                GLfloat ambientLight[4] = {0.6, 0.2, 0.2, 1.0};
-                GLfloat diffuseLight[4] = {0.7, 0.7, 0.7, -0.2};
-                GLfloat specularLight[4] = {1.0, 1.0, 1.0, 1.0};
-                GLfloat lightPosition[4] = {0.0, -100.0, 250.0, 1.0};
+                // GLfloat ambientLight[4] = {0.6, 0.2, 0.2, 1.0};
+                // GLfloat diffuseLight[4] = {0.7, 0.7, 0.7, -0.2};
+                // GLfloat specularLight[4] = {1.0, 1.0, 1.0, 1.0};
+                // GLfloat lightPosition[4] = {0.0, -100.0, 250.0, 1.0};
 
                 GLfloat materialSpecular[4] = {1.0, 1.0, 1.0, 1.0};
                 GLint materialShininess = 95;
@@ -30,9 +30,9 @@ class Light {
                 glMaterialfv(GL_FRONT, GL_DIFFUSE, transparentMaterial);
 
                 // Set light properties
-                glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
-                glLightfv(GL_LIGHT0, GL_SPECULAR, specularLight);
-                glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+                // glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
+                // glLightfv(GL_LIGHT0, GL_SPECULAR, specularLight);
+                // glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 
                 // Enable lighting features
                 glEnable(GL_COLOR_MATERIAL);

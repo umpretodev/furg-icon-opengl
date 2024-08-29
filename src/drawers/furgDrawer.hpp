@@ -6,13 +6,14 @@ using vec3 = glm::vec3;
 
 class FurgDrawer {
     private:
-        void static drawNeutralComponent(vec3 origin, GLfloat radius) {
+        void static drawNeutralComponent(vec3 origin, GLfloat radius, GLfloat deep = 0) {
             glDisable(GL_LIGHTING);
                 ColorUtil::setBackground();
                 GLfloat RIGHT_SIDE  = origin.x + (radius * .7f);
                 GLfloat LEFT_SIDE   = origin.x - (radius * .7f);
-                GLfloat UP_SIDE     = origin.y + (radius * .7f);
+                GLfloat UP_SIDE     = origin.y + (radius * .55f);
                 GLfloat BOTTOM_SIDE = origin.y - (radius * .7f);
+                GLfloat TIP = radius * 0.18f;
 
                 
                 GLfloat L = radius * 0.1;
@@ -25,53 +26,53 @@ class FurgDrawer {
 
                 // External Component
                 glBegin(GL_QUADS);
-                    glVertex3d(LEFT_SIDE - L, BOTTOM_SIDE, 0);
-                    glVertex3d(LEFT_SIDE, BOTTOM_SIDE, 0);
-                    glVertex3d(LEFT_SIDE, UP_SIDE + .1, 0);
-                    glVertex3d(LEFT_SIDE - L, UP_SIDE + .1, 0);
+                    glVertex3d(LEFT_SIDE - L, BOTTOM_SIDE, deep);
+                    glVertex3d(LEFT_SIDE, BOTTOM_SIDE, deep);
+                    glVertex3d(LEFT_SIDE, UP_SIDE + TIP, deep);
+                    glVertex3d(LEFT_SIDE - L, UP_SIDE, deep);
                 glEnd();
 
                 glBegin(GL_QUADS);
-                    glVertex3d(RIGHT_SIDE + L, BOTTOM_SIDE, 0);
-                    glVertex3d(RIGHT_SIDE, BOTTOM_SIDE, 0);
-                    glVertex3d(RIGHT_SIDE, UP_SIDE + .1, 0);
-                    glVertex3d(RIGHT_SIDE + L, UP_SIDE + .1, 0);
+                    glVertex3d(RIGHT_SIDE + L, BOTTOM_SIDE, deep);
+                    glVertex3d(RIGHT_SIDE, BOTTOM_SIDE, deep);
+                    glVertex3d(RIGHT_SIDE, UP_SIDE + TIP, deep);
+                    glVertex3d(RIGHT_SIDE + L, UP_SIDE, deep);
                 glEnd();
 
                 glBegin(GL_QUADS);
-                    glVertex3d(LEFT_SIDE  - .1, BOTTOM_SIDE, 0);
-                    glVertex3d(LEFT_SIDE  - .1, BOTTOM_SIDE - L, 0);
-                    glVertex3d(RIGHT_SIDE + .1, BOTTOM_SIDE - L, 0);
-                    glVertex3d(RIGHT_SIDE + .1, BOTTOM_SIDE, 0);
+                    glVertex3d(LEFT_SIDE  - .06, BOTTOM_SIDE, deep);
+                    glVertex3d(LEFT_SIDE  - .06, BOTTOM_SIDE - L, deep);
+                    glVertex3d(RIGHT_SIDE + .06, BOTTOM_SIDE - L, deep);
+                    glVertex3d(RIGHT_SIDE + .06, BOTTOM_SIDE, deep);
                 glEnd();
 
 
                 // Internal Component
                 glBegin(GL_QUADS);
-                    glVertex3d(LEFT_INSIDE + l, BOTTOM_INSIDE, 0);
-                    glVertex3d(LEFT_INSIDE, BOTTOM_INSIDE, 0);
-                    glVertex3d(LEFT_INSIDE, UP_INSIDE, 0);
-                    glVertex3d(LEFT_INSIDE + l, UP_INSIDE, 0);
+                    glVertex3d(LEFT_INSIDE + l, BOTTOM_INSIDE, deep);
+                    glVertex3d(LEFT_INSIDE, BOTTOM_INSIDE, deep);
+                    glVertex3d(LEFT_INSIDE, UP_INSIDE, deep);
+                    glVertex3d(LEFT_INSIDE + l, UP_INSIDE, deep);
                 glEnd();
                 
                 glBegin(GL_QUADS);
-                    glVertex3d(RIGHT_INSIDE - l, BOTTOM_INSIDE, 0);
-                    glVertex3d(RIGHT_INSIDE, BOTTOM_INSIDE, 0);
-                    glVertex3d(RIGHT_INSIDE, UP_INSIDE, 0);
-                    glVertex3d(RIGHT_INSIDE - l, UP_INSIDE, 0);
+                    glVertex3d(RIGHT_INSIDE - l, BOTTOM_INSIDE, deep);
+                    glVertex3d(RIGHT_INSIDE, BOTTOM_INSIDE, deep);
+                    glVertex3d(RIGHT_INSIDE, UP_INSIDE, deep);
+                    glVertex3d(RIGHT_INSIDE - l, UP_INSIDE, deep);
                 glEnd();
                 
                 glBegin(GL_QUADS);
-                    glVertex3d(LEFT_INSIDE, BOTTOM_INSIDE, 0);
-                    glVertex3d(LEFT_INSIDE, BOTTOM_INSIDE + l, 0);
-                    glVertex3d(RIGHT_INSIDE, BOTTOM_INSIDE + l, 0);
-                    glVertex3d(RIGHT_INSIDE - l, BOTTOM_INSIDE, 0);
+                    glVertex3d(LEFT_INSIDE, BOTTOM_INSIDE, deep);
+                    glVertex3d(LEFT_INSIDE, BOTTOM_INSIDE + l, deep);
+                    glVertex3d(RIGHT_INSIDE, BOTTOM_INSIDE + l, deep);
+                    glVertex3d(RIGHT_INSIDE - l, BOTTOM_INSIDE, deep);
                 glEnd();
             glEnable(GL_LIGHTING);
         }
 
 
-        void static drawOrangeComponent(vec3 center, GLfloat radius) {
+        void static drawOrangeComponent(vec3 center, GLfloat radius, GLfloat deep = 0) {
             ColorUtil::setOrange();
 
             glBegin(GL_POLYGON);
@@ -82,13 +83,25 @@ class FurgDrawer {
                     float x = radius * cos(theta);
                     float y = radius * sin(theta);
 
-                    glVertex3f(x + center.x, center.y + y, center.z);
+                    glVertex3f(x + center.x, center.y + y, center.z + deep);
                 }
-
             glEnd();
+
+                if (deep) {
+                    glBegin(GL_POLYGON_BIT);
+                            for (int i = 0; i < segmentsNumber + 100; i++) {
+                                float theta = (2 * M_PI * float(i)) / float(segmentsNumber);
+                                float x = radius * cos(theta);
+                                float y = radius * sin(theta);
+                                glVertex3f(x + center.x, center.y + y, center.z);
+                                glVertex3f(x + center.x, center.y + y, center.z + deep);
+
+                            }
+                    glEnd();
+                }
         }
 
-        void static drawRedComponent(vec3 origin, GLfloat radius) {
+        void static drawRedComponent(vec3 origin, GLfloat radius, GLfloat deep = 0) {
             ColorUtil::setRed();
 
             GLfloat RIGHT_SIDE = origin.x + (radius * .7f);
@@ -100,51 +113,76 @@ class FurgDrawer {
             GLfloat L = radius * .2f;
 
             glBegin(GL_QUADS);
-                glVertex3d(LEFT_SIDE + L, BOTTOM_SIDE, 0);
-                glVertex3d(LEFT_SIDE, BOTTOM_SIDE, 0);
-                glVertex3d(LEFT_SIDE, UP_SIDE, 0);
-                glVertex3d(LEFT_SIDE + L, UP_SIDE + TIP, 0);
+                glVertex3d(LEFT_SIDE + L, BOTTOM_SIDE, deep);
+                glVertex3d(LEFT_SIDE, BOTTOM_SIDE, deep);
+                glVertex3d(LEFT_SIDE, UP_SIDE, deep);
+                glVertex3d(LEFT_SIDE + L, UP_SIDE + TIP, deep);
             glEnd();
 
             glBegin(GL_QUADS);
-                glVertex3d(RIGHT_SIDE - L, BOTTOM_SIDE, 0);
-                glVertex3d(RIGHT_SIDE, BOTTOM_SIDE, 0);
-                glVertex3d(RIGHT_SIDE, UP_SIDE, 0);
-                glVertex3d(RIGHT_SIDE - L, UP_SIDE + TIP, 0);
+                glVertex3d(RIGHT_SIDE - L, BOTTOM_SIDE, deep);
+                glVertex3d(RIGHT_SIDE, BOTTOM_SIDE, deep);
+                glVertex3d(RIGHT_SIDE, UP_SIDE, deep);
+                glVertex3d(RIGHT_SIDE - L, UP_SIDE + TIP, deep);
             glEnd();
 
             glBegin(GL_QUADS);
-                glVertex3d(LEFT_SIDE, BOTTOM_SIDE, 0);
-                glVertex3d(LEFT_SIDE, BOTTOM_SIDE + L, 0);
-                glVertex3d(RIGHT_SIDE, BOTTOM_SIDE + L, 0);
-                glVertex3d(RIGHT_SIDE, BOTTOM_SIDE, 0);
+                glVertex3d(LEFT_SIDE, BOTTOM_SIDE, deep);
+                glVertex3d(LEFT_SIDE, BOTTOM_SIDE + L, deep);
+                glVertex3d(RIGHT_SIDE, BOTTOM_SIDE + L, deep);
+                glVertex3d(RIGHT_SIDE, BOTTOM_SIDE, deep);
             glEnd();
         }
 
-        static void drawEllipse(vec3 p1, vec3 p2, float b) {
+        static void drawEllipse(vec3 p1, vec3 p2, float b, GLfloat deep = 0) {
             ColorUtil::setYellow();
 
-            float a = sqrt(pow(p2.x - p1.x, 2) + pow(p2.y - p1.y, 2)) / 2.0f; 
+            float a = sqrt(pow(p2.x - p1.x, 2) + pow(p2.y - p1.y, 2)) / 2.0f;
             float cx = (p1.x + p2.x) / 2.0f;
             float cy = (p1.y + p2.y) / 2.0f;
 
             float angle = atan2(p2.y - p1.y, p2.x - p1.x);
 
-            glBegin(GL_POLYGON); 
-                for (int i = 0; i < 360; i++) {
+            glBegin(GL_POLYGON);
+            for (int i = 0; i < 360; i++) {
+                float theta = i * (M_PI / 180.0f);
+                float x = a * cos(theta);
+                float y = b * sin(theta);
+
+                // Aplicando a rotação no plano XY
+                float xr = x * cos(angle) - y * sin(angle);
+                float yr = x * sin(angle) + y * cos(angle);
+
+                // Adicionando profundidade baseada na posição angular
+                // float zr = deep * sin(theta);
+
+                glVertex3f(cx + xr, cy + yr, deep);
+            }
+            glEnd();
+
+            if (deep) {
+                glBegin(GL_POLYGON);
+                for (int i = 0; i < 720; i++) {
                     float theta = i * (M_PI / 180.0f);
                     float x = a * cos(theta);
                     float y = b * sin(theta);
 
+                    // Aplicando a rotação no plano XY
                     float xr = x * cos(angle) - y * sin(angle);
                     float yr = x * sin(angle) + y * cos(angle);
 
-                    glVertex2f(cx + xr, cy + yr);
+                    // Adicionando profundidade baseada na posição angular
+                    // float zr = deep * sin(theta);
+
+                    glVertex3f(cx + xr, cy + yr, 0);
+                    glVertex3f(cx + xr, cy + yr, deep);
                 }
-            glEnd();
+                glEnd();
+
+            }
         }
 
-        static void drawYellowComponent(vec3 origin, GLfloat radius) {
+        static void drawYellowComponent(vec3 origin, GLfloat radius, GLfloat deep = 0) {
             ColorUtil::setYellow();
 
             GLfloat RIGHT_SIDE = origin.x + (radius * .45f);
@@ -153,27 +191,38 @@ class FurgDrawer {
             GLfloat BOTTOM_SIDE = origin.y - (radius * .45f);
 
             glBegin(GL_QUADS);
-                glVertex3d(LEFT_SIDE, BOTTOM_SIDE, 0);
-                glVertex3d(LEFT_SIDE, UP_SIDE, 0);
-                glVertex3d(RIGHT_SIDE, UP_SIDE, 0);
-                glVertex3d(RIGHT_SIDE, BOTTOM_SIDE, 0);
+                glVertex3d(LEFT_SIDE, BOTTOM_SIDE, deep);
+                glVertex3d(LEFT_SIDE, UP_SIDE, deep);
+                glVertex3d(RIGHT_SIDE, UP_SIDE, deep);
+                glVertex3d(RIGHT_SIDE, BOTTOM_SIDE, deep);
             glEnd();
 
 
-            vec3 vertex1 = vec3(RIGHT_SIDE, UP_SIDE, 0);
-            vec3 vertex2 = vec3(LEFT_SIDE, UP_SIDE, 0);
+            vec3 vertex1 = vec3(RIGHT_SIDE, UP_SIDE, deep);
+            vec3 vertex2 = vec3(LEFT_SIDE, UP_SIDE, deep);
             GLfloat b = radius * .15;
 
 
             FurgDrawer::drawEllipse(vertex1, vertex2, b);
+            FurgDrawer::drawEllipse(vertex1, vertex2, b, -.2f);
         }
+
 
     public:
         static void draw(vec3 origin, GLfloat radius) {
+            // Front Side
             drawOrangeComponent(origin, radius);
             drawYellowComponent(origin, radius);
             drawRedComponent(origin, radius);
             drawNeutralComponent(origin, radius);
+
+
+            // Back Side
+            drawOrangeComponent(origin, radius, -.2f);
+            drawYellowComponent(origin, radius, -.2f);
+            drawRedComponent(origin, radius, -.2f);
+            drawNeutralComponent(origin, radius, -.2f);
+
         }
 
         static void eraseBackground(vec3 origin, GLfloat radius) {

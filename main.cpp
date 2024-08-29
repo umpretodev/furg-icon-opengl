@@ -3,6 +3,7 @@
 #include "src/drawers/furgDrawer.hpp"
 #include "src/animators/animator.hpp"
 #include "src/lights/light.hpp"
+#include "src/lights/PhongLighting.hpp"
 
 #include <iostream>
 
@@ -19,6 +20,10 @@ GLfloat LIMIT = .5f;
 void display() {
     glClear(GL_COLOR_BUFFER_BIT);
 
+    //Light::initLights();
+    //Light::initLights();
+    PhongLighting::enable();
+
     glPushMatrix();
 
     glTranslatef(ORIGIN.x, ORIGIN.y, ORIGIN.z); 
@@ -32,9 +37,6 @@ void display() {
 
 
 void update(int value) {
-    // if (TX <= LIMIT) TX += FREQ;
-    // if (TX >= LIMIT) TX -= FREQ;
-
     glutPostRedisplay();
     glutTimerFunc(16, update, 0);
 }
@@ -44,6 +46,7 @@ void init() {
     glMatrixMode(GL_PROJECTION);
 
     Light::initLights();
+    PhongLighting::setupLighting();
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -53,9 +56,9 @@ void init() {
               0.0, 1.0, 0.0); // Up direction
 
     glLoadIdentity();
-    
-    //gluOrtho2D(-1.0, 1.0, -1.0, 1.0);
+
     glEnable(GL_DEPTH_TEST);
+    
 }
 
 int main(int argc, char **argv) {
