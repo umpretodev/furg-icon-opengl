@@ -7,9 +7,9 @@ Projeto desenvolvido com OpenGL. A ideia é buildar o icone da Universidade Fede
 
 # Executando
 
-Tendo o OpenGL instalado em seu localhost, basta executar o comando abaixo:
+Tendo o OpenGL instalado em seu localhost, basta executar o comando abaixo para build e execução:
 
 ```bash
-make && code
+make && ./code
 
 ```
