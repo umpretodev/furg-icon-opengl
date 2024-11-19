@@ -1,16 +1,19 @@
 #include <GL/glut.h>
 #include <glm/glm.hpp>
 #include "ColorEntity.hpp"
+#include "LightEntity.hpp"
 
 using vec3 = glm::vec3;
 
 class GeometryEntity {
 private:
     void static renderNeutralComponent(vec3 origin, GLfloat radius, GLfloat deep = 0) {
-        glDisable(GL_LIGHTING);
-            // setBackground
+
+        LightEntity::disable();
+
             ColorEntity::setBlack();
 
+            // Configurations setup
             GLfloat RIGHT_SIDE = origin.x + (radius * .7f);
             GLfloat LEFT_SIDE = origin.x - (radius * .7f);
             GLfloat UP_SIDE = origin.y + (radius * .55f);
@@ -25,7 +28,8 @@ private:
             GLfloat BOTTOM_INSIDE = BOTTOM_SIDE + 2 * L;
             GLfloat UP_INSIDE = UP_SIDE + 0.2;
 
-            // External Component
+            // EXTERNAL COMPONENT
+            // Make polygon (left)
             glBegin(GL_QUADS);
             glVertex3d(LEFT_SIDE - L, BOTTOM_SIDE, deep);
             glVertex3d(LEFT_SIDE, BOTTOM_SIDE, deep);
@@ -33,6 +37,7 @@ private:
             glVertex3d(LEFT_SIDE - L, UP_SIDE, deep);
             glEnd();
 
+            // Make polygon (right)
             glBegin(GL_QUADS);
             glVertex3d(RIGHT_SIDE + L, BOTTOM_SIDE, deep);
             glVertex3d(RIGHT_SIDE, BOTTOM_SIDE, deep);
@@ -40,6 +45,7 @@ private:
             glVertex3d(RIGHT_SIDE + L, UP_SIDE, deep);
             glEnd();
 
+            // Make polygon (bottom)
             glBegin(GL_QUADS);
             glVertex3d(LEFT_SIDE - .06, BOTTOM_SIDE, deep);
             glVertex3d(LEFT_SIDE - .06, BOTTOM_SIDE - L, deep);
@@ -47,7 +53,8 @@ private:
             glVertex3d(RIGHT_SIDE + .06, BOTTOM_SIDE, deep);
             glEnd();
 
-            // Internal Component
+            // INTERNAL COMPONENT
+            // Make polygon (left)
             glBegin(GL_QUADS);
             glVertex3d(LEFT_INSIDE + l, BOTTOM_INSIDE, deep);
             glVertex3d(LEFT_INSIDE, BOTTOM_INSIDE, deep);
@@ -55,6 +62,7 @@ private:
             glVertex3d(LEFT_INSIDE + l, UP_INSIDE, deep);
             glEnd();
 
+            // Make polygon (right)
             glBegin(GL_QUADS);
             glVertex3d(RIGHT_INSIDE - l, BOTTOM_INSIDE, deep);
             glVertex3d(RIGHT_INSIDE, BOTTOM_INSIDE, deep);
@@ -62,16 +70,18 @@ private:
             glVertex3d(RIGHT_INSIDE - l, UP_INSIDE, deep);
             glEnd();
 
+            // Make Polygon (bottom)
             glBegin(GL_QUADS);
             glVertex3d(LEFT_INSIDE, BOTTOM_INSIDE, deep);
             glVertex3d(LEFT_INSIDE, BOTTOM_INSIDE + l, deep);
             glVertex3d(RIGHT_INSIDE, BOTTOM_INSIDE + l, deep);
             glVertex3d(RIGHT_INSIDE - l, BOTTOM_INSIDE, deep);
             glEnd();
-        glEnable(GL_LIGHTING);
+        LightEntity::enable();
     }
 
     void static renderOrangeComponent(vec3 center, GLfloat radius, GLfloat deep = 0) {
+        
         ColorEntity::setOrange();
 
         glBegin(GL_POLYGON);
@@ -86,7 +96,9 @@ private:
         }
         glEnd();
 
+        // Render sides
         if (deep) {
+            ColorEntity::setRed();
             glBegin(GL_POLYGON_BIT);
             for (int i = 0; i < segmentsNumber + 100; i++) {
                 float theta = (2 * M_PI * float(i)) / float(segmentsNumber);
@@ -147,12 +159,8 @@ private:
             float x = a * cos(theta);
             float y = b * sin(theta);
 
-            // Aplicando a rotação no plano XY
             float xr = x * cos(angle) - y * sin(angle);
             float yr = x * sin(angle) + y * cos(angle);
-
-            // Adicionando profundidade baseada na posição angular
-            // float zr = deep * sin(theta);
 
             glVertex3f(cx + xr, cy + yr, deep);
         }
@@ -165,12 +173,8 @@ private:
                 float x = a * cos(theta);
                 float y = b * sin(theta);
 
-                // Aplicando a rotação no plano XY
                 float xr = x * cos(angle) - y * sin(angle);
                 float yr = x * sin(angle) + y * cos(angle);
-
-                // Adicionando profundidade baseada na posição angular
-                // float zr = deep * sin(theta);
 
                 glVertex3f(cx + xr, cy + yr, 0);
                 glVertex3f(cx + xr, cy + yr, deep);
@@ -204,13 +208,13 @@ private:
 
 public:
     static void run(vec3 origin, GLfloat radius) {
-        // Front Side
+        // RENDER FS
         renderOrangeComponent(origin, radius);
         renderYellowComponent(origin, radius);
         renderRedComponent(origin, radius);
         renderNeutralComponent(origin, radius);
 
-        // Back Side
+        // Render BS (add deep parameter)
         renderOrangeComponent(origin, radius, -.2f);
         renderYellowComponent(origin, radius, -.2f);
         renderRedComponent(origin, radius, -.2f);
