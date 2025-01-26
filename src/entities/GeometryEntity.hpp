@@ -5,6 +5,9 @@
 
 using vec3 = glm::vec3;
 
+#ifndef GEOMETRYeNTITY_HPP
+#define GEOMETRYeNTITY_HPP
+
 class GeometryEntity {
 private:
     void static renderNeutralComponent(vec3 origin, GLfloat radius, GLfloat deep = 0) {
@@ -98,12 +101,13 @@ private:
 
         // Render sides
         if (deep) {
-            ColorEntity::setRed();
+            ColorEntity::setOrange();
             glBegin(GL_POLYGON_BIT);
             for (int i = 0; i < segmentsNumber + 100; i++) {
                 float theta = (2 * M_PI * float(i)) / float(segmentsNumber);
                 float x = radius * cos(theta);
                 float y = radius * sin(theta);
+
                 glVertex3f(x + center.x, center.y + y, center.z);
                 glVertex3f(x + center.x, center.y + y, center.z + deep);
             }
@@ -123,10 +127,10 @@ private:
         GLfloat L = radius * .2f;
 
         glBegin(GL_QUADS);
-        glVertex3d(LEFT_SIDE + L, BOTTOM_SIDE, deep);
-        glVertex3d(LEFT_SIDE, BOTTOM_SIDE, deep);
-        glVertex3d(LEFT_SIDE, UP_SIDE, deep);
-        glVertex3d(LEFT_SIDE + L, UP_SIDE + TIP, deep);
+            glVertex3d(LEFT_SIDE + L, BOTTOM_SIDE, deep);
+            glVertex3d(LEFT_SIDE, BOTTOM_SIDE, deep);
+            glVertex3d(LEFT_SIDE, UP_SIDE, deep);
+            glVertex3d(LEFT_SIDE + L, UP_SIDE + TIP, deep);
         glEnd();
 
         glBegin(GL_QUADS);
@@ -192,10 +196,10 @@ private:
         GLfloat BOTTOM_SIDE = origin.y - (radius * .45f);
 
         glBegin(GL_QUADS);
-        glVertex3d(LEFT_SIDE, BOTTOM_SIDE, deep);
-        glVertex3d(LEFT_SIDE, UP_SIDE, deep);
-        glVertex3d(RIGHT_SIDE, UP_SIDE, deep);
-        glVertex3d(RIGHT_SIDE, BOTTOM_SIDE, deep);
+            glVertex3d(LEFT_SIDE, BOTTOM_SIDE, deep);
+            glVertex3d(LEFT_SIDE, UP_SIDE, deep);
+            glVertex3d(RIGHT_SIDE, UP_SIDE, deep);
+            glVertex3d(RIGHT_SIDE, BOTTOM_SIDE, deep);
         glEnd();
 
         vec3 vertex1 = vec3(RIGHT_SIDE, UP_SIDE, deep);
@@ -208,16 +212,18 @@ private:
 
 public:
     static void run(vec3 origin, GLfloat radius) {
-        // RENDER FS
+        // RENDER FRONT SIDE
         renderOrangeComponent(origin, radius);
         renderYellowComponent(origin, radius);
         renderRedComponent(origin, radius);
         renderNeutralComponent(origin, radius);
 
-        // Render BS (add deep parameter)
+        // Render BACK SIDE
         renderOrangeComponent(origin, radius, -.2f);
         renderYellowComponent(origin, radius, -.2f);
         renderRedComponent(origin, radius, -.2f);
         renderNeutralComponent(origin, radius, -.2f);
     }
 };
+
+#endif

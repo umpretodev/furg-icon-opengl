@@ -1,5 +1,8 @@
 #include <GL/glut.h>
 
+#ifndef COLORENTITY_HPP
+#define COLORENTITY_HPP
+
 class ColorEntity {
     public:
         static void setBlack() { glColor3f(.0f, .0f, .0f); }
@@ -8,3 +11,5 @@ class ColorEntity {
         static void setRed() { glColor3f(.93f, .39f, .33f); }
         static void setWhite() { glColor3f(1.f, 1.f, 1.f); }
 };
+
+#endif

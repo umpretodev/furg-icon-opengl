@@ -1,64 +1,26 @@
+#include "src/GraphicPipeline.hpp"
 #include <GL/glut.h>
-#include <glm/glm.hpp>
-#include "src/drawers/furgDrawer.hpp"
-#include "src/animators/animator.hpp"
-#include "src/lights/light.hpp"
-#include "src/lights/PhongLighting.hpp"
 
-#include <iostream>
-
-using vec3 = glm::vec3;
-
-#define ORIGIN vec3(.0f, .0f, 0.0f)
-#define RADIUS 0.6
-
-GLfloat THETA = 45.f;
-GLfloat FREQ  = 0.01f; 
-GLfloat TX    = 2.f;
-GLfloat LIMIT = .5f;
+#include "src/entities/LightEntity.hpp"
 
 void display() {
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    
+    // Pipeline Orchestration
+    GraphicPipeline::handleGeometryModelingStage1();
+    GraphicPipeline::handleTransformationStage2();
+    
+    GraphicPipeline::handleLightStage3();
+    //LightEntity::initLights();
 
-    //Light::initLights();
-    //Light::initLights();
-    PhongLighting::enable();
-
-    glPushMatrix();
-
-    glTranslatef(ORIGIN.x, ORIGIN.y, ORIGIN.z); 
-
-    Animator::rotate(THETA);
-    FurgDrawer::draw(ORIGIN, RADIUS);
-
+    GraphicPipeline::handleProjectionStage4();
     glutSwapBuffers();
 }
-
-
 
 void update(int value) {
     glutPostRedisplay();
     glutTimerFunc(16, update, 0);
-}
-
-void init() {
-    ColorUtil::setBackground();
-    glMatrixMode(GL_PROJECTION);
-
-    Light::initLights();
-    PhongLighting::setupLighting();
-
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-
-    gluLookAt(0.0, 0.0, 5.0,  // Eye position
-              0.0, 0.0, 0.0,  // Look-at position
-              0.0, 1.0, 0.0); // Up direction
-
-    glLoadIdentity();
-
-    glEnable(GL_DEPTH_TEST);
-    
 }
 
 int main(int argc, char **argv) {
@@ -68,7 +30,8 @@ int main(int argc, char **argv) {
     glutInitWindowPosition(100, 100);
     glutCreateWindow("Furg Icon");
 
-    init();
+    GraphicPipeline::handleSetup();
+
     glutDisplayFunc(display);
     glutTimerFunc(16, update, 0);
     glutMainLoop();

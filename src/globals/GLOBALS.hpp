@@ -1,9 +1,14 @@
-#ifndef GLOBALS_H
-#define GLOBALS_H
-
 #include <glm/glm.hpp>
 
-glm::vec3 GLOBAL_ORIGIN = glm::vec3(0.0f, 0.0f, 0.0f);
-int GLOBAL_RADIUS = 0.6;
+using vec3 = glm::vec3;
 
-#endif    
+#define GLOBAL_ORIGIN vec3(.0f, .0f, 0.0f)
+#define GLOBAL_RADIUS 0.6
+#define GLOBAL_THETA 45.f
+
+#define GLOBAL_LEFT_PROJECTION -1.0f
+#define GLOBAL_RIGHT_PROJECTION 1.0f
+#define GLOBAL_BOTTOM_PROJECTION -1.0f
+#define GLOBAL_TOP_PROJECTION 1.0f
+#define GLOBAL_NEARVAL_PROJECTION 0.1f
+#define GLOBAL_FARVAL_PROJECTION 20.0
